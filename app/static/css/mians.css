@@ -1,0 +1,15 @@
+
+.main {
+    background: #fff;
+    width: 730px;
+    margin: 0 auto;
+    overflow: hidden;
+    padding: 3px;
+    /*padding-top: 30px;*/
+    margin-top: 80px;
+    float: left;
+    margin-left: 280px;
+}
+.m-body {
+    background: #f3f3f3;
+}

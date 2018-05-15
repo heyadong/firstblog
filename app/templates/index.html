@@ -1,0 +1,65 @@
+{% extends 'bases.html' %}
+{% block title %}首页{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/indext.css') }}">
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/blog.css') }}">
+{% endblock %}
+{% block content %}
+{% import "UI/pagination.html" as pg %}
+    <p style="text-align: center"> 文章列表 </p>
+    <ul class="question-ul">
+        {% for question in questions.items %}
+            <li>
+                <div class="avatar-group">
+                    <img src="{{url_for('static',filename='img/34.jpg')}}" alt="" class="avatar">
+                </div>
+                <div class="question-group">
+                    <p class="question-title"> <a href="{{ url_for('blog.detail',question_id=question.id )}}">{{ question.title }}hello</a> </p>
+                    <p class="question-content">{{ question.content|safe }} </p>
+                    <div class="question-info">
+                        <span class="question-author">{{ question.article.username }}</span>
+                        <span class="question-time">{{ question.create_time }}</span>
+                    </div>
+                </div>
+            </li>
+        {% endfor %}
+    </ul>
+ <!-- 分页 -->
+    {{ pg.paginate(questions, 'blog.index') }}
+ <!--分页结束 -->
+{% endblock %}
+{% block left_bar %}
+<div class="left-bar">
+    <div class="col-sm-3 col-sm-offset-1 blog-sidebar" style="width: 200px;float:right;margin-top: 80px;margin-right: 80px" >
+          <div class="sidebar-module sidebar-module-inset">
+            <h4>About</h4>
+            <p style="margin: 0 0 10px">Etiam porta <em>sem malesuada magna</em> mollis euismod. Cras mattis consectetur purus sit amet fermentum. Aenean lacinia bibendum nulla sed consectetur.</p>
+          </div>
+          <div class="sidebar-module">
+            <h4>Archives</h4>
+            <ol class="list-unstyled">
+              <li><a href="#">March 2014</a></li>
+              <li><a href="#">February 2014</a></li>
+              <li><a href="#">January 2014</a></li>
+              <li><a href="#">December 2013</a></li>
+              <li><a href="#">November 2013</a></li>
+              <li><a href="#">October 2013</a></li>
+              <li><a href="#">September 2013</a></li>
+              <li><a href="#">August 2013</a></li>
+              <li><a href="#">July 2013</a></li>
+              <li><a href="#">June 2013</a></li>
+              <li><a href="#">May 2013</a></li>
+              <li><a href="#">April 2013</a></li>
+            </ol>
+          </div>
+          <div class="sidebar-module">
+            <h4>Elsewhere</h4>
+            <ol class="list-unstyled">
+                <li><a href="https://github.com/heyadong"><img style="width: 18px;height: 18px" src="{{ url_for('static',filename='icon/github.svg') }}">&nbsp;&nbsp;GitHub</a></li>
+                <li><a href="#"><img style="width: 18px;height: 18px" src="{{ url_for('static',filename='icon/email.svg') }}">&nbsp;&nbsp;Email</a></li>
+                <li><a href="https://github.com/heyadong"><img style="width: 18px;height: 18px" src="{{ url_for('static',filename='icon/qq.svg') }}">&nbsp;&nbsp;QQ</a></li>
+            </ol>
+          </div>
+    </div><!-- /.blog-sidebar -->
+</div>
+{% endblock %}

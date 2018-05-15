@@ -1,0 +1,28 @@
+{% extends "bases.html" %}
+{% block content %}
+    <div>
+   <p>a:</p><input id="a1">
+    </div>
+    <div>
+    <p>b:</p><input id="b1">
+    </div>
+    <p id="r1"></p>
+    <a href="#" type="button" id="c1">异步计算</a>
+{% endblock %}
+{% block js %}
+    <script>
+    $SCRIPT_ROOT={{ request.script_root|tojson|safe }};
+    $(function () {
+         $("#c1").bind('click',function () {
+            $.getJSON($SCRIPT_ROOT+'/add',
+                {a:$("#a1").val(),
+                 b:$("#b1").val(),
+                },function (data) {
+                $("#r1").text(data.result)
+                });
+            return false
+         });
+      });
+    </script>
+
+{% endblock %}

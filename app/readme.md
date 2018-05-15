@@ -1,6 +1,3 @@
-# flask_learning
-这是一个FLASK学习项目
-用flask编写的简单的博客
 2018/5/9 完成图片上传功能。包括非JPG图片上传验证提示
 2018/5/11 图片列表的异步加载
 使用Jquery  ajax
@@ -53,3 +50,38 @@ $(function(){
 })
 
 </script>
+3.
+使用flask-migrate
+from flask_migrate import Migrate, MigrateCommands
+migrate = Migrate(app,db)
+manager.add_commands('db',MigrateCommands)
+
+命令行输入
+python manage.py db init 初始化迁移脚本
+python manage.py db migrate -m "initial migration" 相当于db.crate_all()
+使用db migrate 报如下错误：
+alembic.util.exc.CommandError: Can't locate revision identified by '3901f09df9fb'
+数据库更新的历史版本对不上。
+删除数据库中的数据表 alembic_version，重新执行命令
+python manage.py db upgrade 更新数据库保留数据库数据
+
+4. 使用flask-sqlalchemy
+join 关联查询
+user = Users.query.join(
+    Article,Artices.author_id == Users.id
+).filter(Articles.id = qustion_id).first()
+
+5. 消息闪现flask.flash：
+.消息分类闪现，
+后端：
+flash('some messages','ok')
+flash(’some other msgs, 'err')
+前端渲染时:
+{% for msg in get_flashes_messages(category_filter['ok'])  %} //只显示ok 的信息
+{{ msg }}
+{% endfor %}
+
+6。使用钩子函数，
+@before_request
+@after_request
+@

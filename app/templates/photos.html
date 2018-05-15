@@ -1,0 +1,74 @@
+{% extends 'bases.html' %}
+{% block title %}
+    相册
+{% endblock %}
+{% block content %}
+
+
+<h3 style="text-align: center">图片列表</h3>
+<table class="table table-hover">
+    <tr>
+        <th>picture name</th>
+        <th>pic</th>
+        <th>url</th>
+    </tr>
+    {% for photo in pics %}
+    <tr>
+        <td>{{ photo.id }}</td>
+        <td><img src="{{ url_for('static',filename='uploads/')+photo.photo_name }}"  alt="" style="width: 90px;height: 70px" class="img-rounded img-responsive"></td>
+        <td><a href="{{ url_for('blog.download',filename=photo.photo_name) }}">下载</a></td>
+    </tr>
+    {% endfor %}
+</table>
+    <div style="padding-bottom: 15px">
+    <a type="button" id="button1" class="btn btn-primary btn-lg btn-block" >加载更多图片</a>
+    </div>
+<form  method="post" enctype="multipart/form-data">
+    {% for msg  in get_flashed_messages() %}
+    <div class="alert alert-success alert-dismissible" role="alert" >
+      <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      <strong>上传成功!</strong> {{ msg }}
+    </div>
+    {% endfor %}
+    {%  for err in form.uploads.errors %}
+    <div class="alert alert-warning alert-dismissible clearfix" role="alert">
+   <button type="button" class="close" data-dismiss="alert" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+   <strong>Warning!</strong> {{ err }}
+    </div>
+    {% endfor %}
+  <div class="form-group" style="float: left;padding-left: 5px">
+    <label for="exampleInputFile">图片上传</label>
+    {{ form.uploads }}
+  </div>
+  <div style="float: right;padding-top: 15px;padding-right: 15px">
+{#    <button type="button" class="btn btn-primary">上传</button>#}
+      {{ form.submit }}
+      {{ form.csrf_token }}
+  </div>
+</form>
+
+{% endblock %}
+{% block js %}
+<script>
+var count = 0
+$SCRIPT_ROOT = {{ request.script_root|tojson|safe }};
+$(function () {
+    count = 0
+    $("#button1").bind('click',function () {
+        count += 1,
+        $.getJSON($SCRIPT_ROOT+'/pics',
+            {
+                count:count
+            },
+            function (data) {
+             for(var i in data){
+              $('table').append("<tr><td>"+data[i].id+"</td><td><img style=\"width: 90px;height: 70px\" class=\"img-rounded img-responsive\" src=\""+$SCRIPT_ROOT+'static/uploads/'+data[i].photo_name+"\"></td><td>"+"<a href=\""+$SCRIPT_ROOT+'download'+data[i].photo_name+"\">下载</a></td></tr>")
+             }
+            });
+        return false
+    });
+
+})
+
+</script>
+{% endblock %}

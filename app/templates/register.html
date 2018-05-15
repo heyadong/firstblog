@@ -1,0 +1,77 @@
+{% extends 'bases.html' %}
+{% block title %}注册{% endblock %}
+{% block head %}
+    <link rel="stylesheet" href="{{ url_for('static',filename='css/login2.css') }}">
+{% endblock %}
+{% block content %}
+<h3 style="text-align:center">注册</h3>
+<form action="" method="post" enctype="multipart/form-data" >
+    <div class="form-container">
+        <div class="form-group">
+{#            <input type="text" class="form-control" placeholder="手机号" name="tel">#}
+            {{ form.tel }}
+        </div>
+        {% for err in form.tel.errors %}
+        <div>
+            <p style="color: red">{{ err }}</p>
+        </div>
+        {% endfor %}
+        <div class="form-group">
+{#            <input type="text" class="form-control" placeholder="用户名" name="username">#}
+            {{ form.username }}
+        </div>
+        {% for err in form.username.errors %}
+        <div>
+            <p style="color: red">{{ err }}</p>
+        </div>
+        {% endfor %}
+        <div class="form-group">
+{#            <input type="email"  class="form-control" id="exampleInputEmail3" placeholder="邮箱" name="email">#}
+            {{ form.email }}
+        </div>
+        {% for err in form.email.errors %}
+        <div>
+            <p style="color: red">{{ err }}</p>
+        </div>
+        {% endfor %}
+        <div class="form-group">
+{#            <input type="password" id="pw1" class="form-control" placeholder="密码" name="password1">#}
+            {{ form.pw1 }}
+        </div>
+        {% for err in form.pw1.errors %}
+        <div>
+            <p style="color: red">{{ err }}</p>
+        </div>
+        {% endfor %}
+        <div class="form-group">
+{#            <input type="password" id="pw2" class="form-control" placeholder="确认密码" name="password2">#}
+            {{ form.pw2 }}
+        </div>
+        <div>
+            <p style="color: red" id="c1"></p>
+        </div>
+        {% for err in form.pw2.errors %}
+        <div>
+            <p style="color: red">{{ err }}</p>
+        </div>
+        {% endfor %}
+        <div class="form-group">
+{#            <button type="submit" class="btn btn-primary btn-block">注册</button>#}
+            {{ form.submit }}
+            {{ form.csrf_token }}
+        </div>
+    </div>
+</form>
+    <script>
+    // 验证两次密码输入是否一致
+    $(document).ready(function () {
+        $('#pw2').blur(function () {
+            var p1 = $('#pw1').val();
+            var p2 = $("#pw2").val();
+            if(p1!= p2){
+                $('#c1').html('两次密码输入不一致')
+            }else $('#c1').html('')
+        });
+    })
+    </script>
+{% endblock %}
